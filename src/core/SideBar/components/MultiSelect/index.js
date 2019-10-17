@@ -3,18 +3,19 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import styled from 'styled-components';
+import Styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const StyledSelect = styled(Select)`
+const StyledSelect = Styled(Select)`
   width: 12rem;
 `;
 
-const CurrencyMultiSelect = ({ title, items }) => {
+const MultiSelect = ({ title, items, handleAction }) => {
   const [values, setValues] = useState([]);
 
   const handleChange = event => {
     setValues(event.target.value);
+    handleAction(event.target.value);
   };
 
   const buildItems = () => {
@@ -31,7 +32,7 @@ const CurrencyMultiSelect = ({ title, items }) => {
       <FormControl>
         <InputLabel>{title}</InputLabel>
 
-        <StyledSelect multiple displayEmpty onChange={handleChange} value={values}>
+        <StyledSelect margin="dense" multiple displayEmpty onChange={handleChange} value={values}>
           {buildItems()}
         </StyledSelect>
       </FormControl>
@@ -39,13 +40,14 @@ const CurrencyMultiSelect = ({ title, items }) => {
   );
 };
 
-CurrencyMultiSelect.defaultProps = {
+MultiSelect.defaultProps = {
   items: []
 };
 
-CurrencyMultiSelect.propTypes = {
+MultiSelect.propTypes = {
   title: PropTypes.string.isRequired,
+  handleAction: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.string)
 };
 
-export default CurrencyMultiSelect;
+export default MultiSelect;
